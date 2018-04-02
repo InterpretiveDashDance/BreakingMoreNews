@@ -104,9 +104,23 @@ var App = function App() {
         'div',
         { id: 'app' },
         _react2.default.createElement(
+            'div',
+            { className: 'navBar' },
+            _react2.default.createElement(
+                _reactRouterDom.NavLink,
+                { exact: true, className: 'nav-item', activeStyle: { fontWeight: 'bold' }, to: '/' },
+                'Away Screen'
+            ),
+            _react2.default.createElement(
+                _reactRouterDom.NavLink,
+                { className: 'nav-item', activeStyle: { fontWeight: 'bold' }, to: '/greenscreen' },
+                'Green Screen'
+            )
+        ),
+        _react2.default.createElement(
             _reactRouterDom.Switch,
             null,
-            _react2.default.createElement(_reactRouterDom.Route, { component: _newsApp2.default }),
+            _react2.default.createElement(_reactRouterDom.Route, { path: '/', component: _newsApp2.default }),
             _react2.default.createElement(_reactRouterDom.Route, { path: '/greenscreen', component: _newsApp2.default })
         )
     );
@@ -152,7 +166,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 //fix for gh-pages assets url
 var defaultbackgroundUrl = void 0;
 
-if (window.location.href.slice(0, 25) === 'https://holyoke.github.io') {
+var idx = window.location.href.indexOf("/#");
+var url = window.location.href.slice(0, idx);
+var isNotLocal = url === 'https://interpretivedashdance.github.io/HugsAwayScreen' || url === 'https://holyoke.github.io/BreakingMoreNews';
+
+if (isNotLocal) {
     defaultbackgroundUrl = "./assets/defaultbackground.jpg";
 } else {
     defaultbackgroundUrl = "../assets/defaultbackground.jpg";
@@ -180,7 +198,7 @@ var Background = function (_React$Component) {
 
             var style = {
                 backgroundAttachment: "fixed",
-                backgroundRepeat: "no-repeat",
+                backgroundRepeat: "repeat",
                 backgroundSize: "cover"
                 // look at path url to determine image or green screen
             };if (pathname === '/greenscreen') {
@@ -344,7 +362,6 @@ var CurrentTime = function (_React$Component) {
         value: function render() {
             var date = this.state.date;
 
-            console.log(date.getSeconds());
             var hour = date.getHours();
             var minutes = date.getMinutes();
             minutes = minutes < 10 ? "0" + minutes : minutes;
